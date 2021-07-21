@@ -19,7 +19,7 @@ class UsersController < ApplicationController
         if user.save
             render status: :created
         else
-            render json: { error: "NO WORK" }, status: :unprocessable_entity
+            render json: { error: "Unable to register user" }, status: :unprocessable_entity
         end
     end
 
