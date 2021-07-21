@@ -23,6 +23,14 @@ class UsersController < ApplicationController
         end
     end
 
+    def update
+        @user = User.find_by_email(params[:email])
+        
+
+
+
+    end
+
     private
 
     def user_params
