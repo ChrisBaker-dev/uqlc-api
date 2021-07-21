@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   scope "/api/v1" do
+    resources :posts
     
     scope "/users" do
       post '/login', to: 'users#login'
