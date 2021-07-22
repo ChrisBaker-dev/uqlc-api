@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     def register
         user = User.new(user_params)
         if user.save
-            render status: :created
+            render json: { message: "User registered" }, status: :created
         else
             render json: { error: "Unable to register user" }, status: :unprocessable_entity
         end
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
     def update
         @user = User.find_by_email(params[:email])
-        
+
 
 
 
