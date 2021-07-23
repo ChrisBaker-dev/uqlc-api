@@ -15,3 +15,7 @@ user = User.find_by_email("d@g.com")
 
 Post.destroy_all
 Post.create(user: user, title:"Training", description: "Tonight @ 8pm on Field 9")
+
+Player.destroy_all
+
+Player.create(user: user, name: "Chris", position: "Defense", number: "4", seasons: "12", description: "I like lacrosse, its so much fun")
