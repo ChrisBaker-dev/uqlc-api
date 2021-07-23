@@ -7,7 +7,7 @@ class UsersController < ApplicationController
             payload = { email: user.email, admin: user.admin, user_id: user.id, exp: Time.now.to_i + 4 * 3600 }
             token = JWT.encode(payload, 'mysecretkey', 'HS512') # add key to ENV
             #render plain: 'Login worked'
-            render json: { token: token, payload: payload }
+            render json: { token: token }
 
         else 
             render json: { error: "Username or password incorrect" }, status: :unauthorized
