@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-    before_action :set_post, only: [:show, :update]
+    before_action :set_post, only: [:show, :update, :destroy]
 
     rescue_from Exception do |error|
         render json: { error: error }, status: :not_found
@@ -21,9 +21,17 @@ class PostsController < ApplicationController
 
     def update
         if @post.update(post_params)
-            render json :@post
+            render json: @post
         else
-            render json: {error: "Failed to update post"}, status: :unprocessable_entry
+            render json: {error: "Failed to update post"}, status: :unprocessable_entity
+        end
+    end
+
+    def destroy
+        if @post.destroy
+            render json: {message: "Post was deleted" }, status: :no_content
+        else
+            render json: { error: "Unable to delete post" }, status: :unprocessable_entity
         end
     end
 

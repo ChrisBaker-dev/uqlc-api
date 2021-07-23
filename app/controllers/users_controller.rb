@@ -4,7 +4,7 @@ class UsersController < ApplicationController
         user = User.find_by_email(user_params[:email])
         #render plain: "#{user.email}"
         if user && user.authenticate(user_params[:password])
-            payload = { email: user.email, exp: Time.now.to_i + 4 * 3600 }
+            payload = { email: user.email, admin: user.admin, user_id: user.id, exp: Time.now.to_i + 4 * 3600 }
             token = JWT.encode(payload, 'mysecretkey', 'HS512') # add key to ENV
             #render plain: 'Login worked'
             render json: { token: token }
