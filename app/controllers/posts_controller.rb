@@ -6,7 +6,7 @@ class PostsController < ApplicationController
     end
 
     def index
-        render json: User.order(updated_at: :desc)
+        render json: Post.order(updated_at: :desc)
     end
 
     def show
