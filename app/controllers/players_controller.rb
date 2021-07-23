@@ -10,7 +10,11 @@ class PlayersController < ApplicationController
     end
 
     def show
-        render json: @player
+        if @player.length > 0
+            render json: @player, status: :ok
+        else
+            render json: { error: "Player id #{params[:id]} not found"}, status: :not_found
+        end
     end
 
     def create
@@ -19,7 +23,7 @@ class PlayersController < ApplicationController
 
     def update
         if @player.update(player_params)
-            render json: @player
+            render json: @player, status: :ok
         else
             render json: { error: "Unable to update player" }, status: :unprocessable_entity
         end
@@ -39,7 +43,7 @@ class PlayersController < ApplicationController
     private
 
     def set_player
-        @player = Player.find(params[:id])
+        @player = Player.where(user_id: params[:id])
     end
 
     def player_params
