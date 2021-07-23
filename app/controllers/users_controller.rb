@@ -8,7 +8,6 @@ class UsersController < ApplicationController
             token = JWT.encode(payload, 'mysecretkey', 'HS512') # add key to ENV
             #render plain: 'Login worked'
             render json: { token: token }
-
         else 
             render json: { error: "Username or password incorrect" }, status: :unauthorized
         end
@@ -17,7 +16,7 @@ class UsersController < ApplicationController
     def register
         user = User.new(user_params)
         if user.save
-            render json: { message: "User Created" }, status: :created
+            render json: { message: "User Created", user_id: user.id }, status: :created
         else
             render json: { error: "Unable to register user" }, status: :unprocessable_entity
         end
