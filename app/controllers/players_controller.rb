@@ -9,6 +9,10 @@ class PlayersController < ApplicationController
         render json: Player.order(updated_at: :desc), status: :ok
     end
 
+    def showcase
+        render json: Player.where(approved: true).order(updated_at: :desc)
+    end
+
     def show
         if @player
             render json: @player, status: :ok
@@ -48,7 +52,7 @@ class PlayersController < ApplicationController
     end
 
     def player_params
-        params.permit(:user_id, :name, :number, :position, :description, :seasons)
+        params.permit(:user_id, :name, :number, :position, :description, :seasons, :approved)
     end
 
 end

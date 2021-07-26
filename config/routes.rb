@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
   scope "/api/v1" do
     resources :posts
+
+    scope '/players' do
+      get '/showcase', to: 'players#showcase'
+    end
+
     resources :players
+
+
     
     scope "/users" do
       post '/login', to: 'users#login'
