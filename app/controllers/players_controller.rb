@@ -1,16 +1,16 @@
 class PlayersController < ApplicationController
-    before_action :set_player, only: [:show, :update, :destroy]
+    before_action :set_player, only: [:show, :update]
 
     rescue_from Exception do |error|
         render json: { error: error }, status: :not_found
     end
 
     def index
-        render json: Player.order(updated_at: :desc)
+        render json: Player.order(updated_at: :desc), status: :ok
     end
 
     def show
-        if @player.length > 0
+        if @player
             render json: @player, status: :ok
         else
             render json: { error: "Player id #{params[:id]} not found"}, status: :not_found
@@ -30,6 +30,7 @@ class PlayersController < ApplicationController
     end
 
     def destroy
+        @player = Player.find(params[:id])
         if @player.destroy
             render json: { message: "Player was deleted" }, status: :ok
         else
@@ -43,7 +44,7 @@ class PlayersController < ApplicationController
     private
 
     def set_player
-        @player = Player.where(user_id: params[:id])
+        @player = Player.where(user_id: params[:id])[0]
     end
 
     def player_params
