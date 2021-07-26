@@ -1,22 +1,31 @@
 class PostsController < ApplicationController
-    before_action :set_post, only: [:show, :update, :destroy]
+    before_action :set_post, only: [:show, :update]
 
     rescue_from Exception do |error|
         render json: { error: error }, status: :not_found
     end
 
     def index
-        render json: Post.order(updated_at: :desc)
+        render json: Post.order(updated_at: :desc), status: :ok
     end
 
     def show
-        render json: @post
+        if @post
+            render json: @post, status: :ok
+        else
+            render json: { error: "Can not show post" }, status: :unprocessable_entity
+        end
     end
 
 
     def create
         #post = Post.create(post_params)
-        render json: Post.create(post_params), staus: :created
+        post = Post.new(post_params)
+        if post.save
+            render status: :created
+        else
+            render status: :unprocessable_entity
+        end
     end
 
     def update
@@ -28,6 +37,7 @@ class PostsController < ApplicationController
     end
 
     def destroy
+        @post = Post.find(params[:id])
         if @post.destroy
             render json: { message: "Post was deleted" }, status: :ok
         else
@@ -45,5 +55,4 @@ class PostsController < ApplicationController
     def post_params
         params.permit(:user_id, :title, :description)
     end
-
 end

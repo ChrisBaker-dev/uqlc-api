@@ -1,12 +1,12 @@
 class PlayersController < ApplicationController
-    before_action :set_player, only: [:show, :update, :destroy]
+    before_action :set_player, only: [:show, :update]
 
     rescue_from Exception do |error|
         render json: { error: error }, status: :not_found
     end
 
     def index
-        render json: Player.order(updated_at: :desc)
+        render json: Player.order(updated_at: :desc), status: :ok
     end
 
     def showcase
@@ -22,7 +22,12 @@ class PlayersController < ApplicationController
     end
 
     def create
-        render json: Player.create(player_params), status: :created
+        @player = Player.new(player_params)
+        if @player.save
+            render json: @player, status: :created
+        else
+            render json: { error: "player not created" }, status: :unprocessable_entity
+        end
     end
 
     def update
@@ -34,6 +39,7 @@ class PlayersController < ApplicationController
     end
 
     def destroy
+        @player = Player.find(params[:id])
         if @player.destroy
             render json: { message: "Player was deleted" }, status: :ok
         else
