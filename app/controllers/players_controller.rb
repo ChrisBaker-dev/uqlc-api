@@ -22,7 +22,12 @@ class PlayersController < ApplicationController
     end
 
     def create
-        render json: Player.create(player_params), status: :created
+        @player = Player.new(player_params)
+        if @player.save
+            render json: @player, status: :created
+        else
+            render json: { error: "player not created" }, status: :unprocessable_entity
+        end
     end
 
     def update

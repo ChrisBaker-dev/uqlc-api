@@ -10,11 +10,11 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
     @player_1 = Player.new(user: user, name: "Chris", number: "4", position: "Defense", seasons: "12")
     @player_1.save()
 
-    @bad_player = Player.new(user: user, name: "Chris", number: "4", position: "Defense")
+    #@bad_player = Player.new(user: user, name: "Chris", number: "4", position: "Defense")
   end
 
   test "should not save user if user name number position seasons are missing" do
-    user = User.create(email: "tyty@ty.com", password:"hello")
+    user = User.create(email: "yada@dada.com", password:"hello")
 
     player = Player.new()
     assert_not player.save
@@ -33,17 +33,25 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
 
     player = Player.new(name: "Chris", number: "4", position: "Defense", seasons: "12")
     assert_not player.save
-
-    # assert @player_1.save
   end
 
+  test "Player creation" do
+    user = User.create(email: "yada@dada.com", password:"hello")
+    player = Player.new(user: user, name: "Joey", number: "4", position: "Defense", seasons: "12")
+    assert player.save()
+  end
+
+
   test "Seasons and number should be integers" do
-    user = User.create(email: "tyty@ty.com", password:"hello")
+    user = User.create(email: "yada@da.com", password:"hello")
     player = Player.new(user: user, name: "Chris", number: "four", position: "Defense", seasons: "12")
     assert_not player.save
 
     player = Player.new(user: user, name: "Chris", number: "4", position: "Defense", seasons: "twelve")
     assert_not player.save
+
+    player_3 = Player.new(user: user, name: "Chris", number: "4", position: "Defense", seasons: "8")
+    assert player_3.save
   end
 
   test "should get index" do
@@ -63,14 +71,10 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "Should update player" do
-    #user = @player_1.user
-    #id = @player_1.id
-    #player_updated = 
     patch player_url(@player_1),
       params: { player: { name: "Jimbob"} }, as: :json
     #p @player_1.name
     #p @player_1
-    p @player_1
     assert_response :ok
   end
 
@@ -80,7 +84,4 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
       delete player_path(@player_1)
     end
   end
-
-  
-
 end
