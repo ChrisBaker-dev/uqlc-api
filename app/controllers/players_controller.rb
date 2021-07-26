@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
     end
 
     def show
-        if @player.length > 0
+        if @player
             render json: @player, status: :ok
         else
             render json: { error: "Player id #{params[:id]} not found"}, status: :not_found
@@ -47,11 +47,11 @@ class PlayersController < ApplicationController
     private
 
     def set_player
-        @player = Player.where(user_id: params[:id])
+        @player = Player.where(user_id: params[:id])[0]
     end
 
     def player_params
-        params.permit(:user_id, :name, :number, :position, :description, :seasons, :approved)
+        params.permit(:user_id, :name, :number, :position, :description, :seasons, :approved, :imageurl)
     end
 
 end
