@@ -53,7 +53,7 @@ class PlayersController < ApplicationController
     private
 
     def set_player
-        @player = Player.where(user_id: params[:id])[0]
+        @player = Player.find_by(user_id: params[:id])
     end
 
     def player_params
