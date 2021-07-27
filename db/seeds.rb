@@ -9,7 +9,7 @@
 User.destroy_all
 User.create(email: "d@g.com", password:"hello")
 
-User.create(email: "ch@ris.com", password:"hello", admin: "true")
+User.create(email: "admin@admin.com", password:"admin", admin: "true")
 
 user = User.find_by_email("d@g.com")
 
